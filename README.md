@@ -1,2 +1,2 @@
 # looper
-Extension for selecting some part of the video and looping over it
+Chrome extension for looping over a fragment of a video with web components
