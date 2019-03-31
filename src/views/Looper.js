@@ -62,14 +62,8 @@ const getCurrentTimeInSeconds = (barWidth, progressInPx, videoDuration) => {
 class LooperContiner extends HTMLElement {
   constructor() {
     super();
-    this.state = {
-      startMarker: null,
-      endMarker: null,
-      progressBarClicks: 0,
-    };
-    this.attachShadow({
-      mode: `open`
-    });
+    this.state = { progressBarClicks: 0 };
+    this.attachShadow({ mode: `open` });
     const Container = getElementFromTemplate(looperStyles);
     const RelativeWrapper = this.generateWrapper();
     render(Container, RelativeWrapper);
