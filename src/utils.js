@@ -9,7 +9,17 @@ const generateElement = (templateStr, selector, attrs) => {
   return docFragment;
 };
 
-const render = (container, ...elements) => {
+const appendAll = (container, ...elements) => {
   container.innerHTML = ``;
   elements.forEach(it => container.appendChild(it));
+};
+
+const getCurrentTimeInSeconds = (barWidth, progressInPx, videoDuration) => {
+  const oneSecond = barWidth / videoDuration;
+  return progressInPx / oneSecond;
+};
+
+const computeProgressBarValue = videoElement => {
+  const percent = (100 / videoElement.duration) * videoElement.currentTime;
+  return percent / 100;
 };
