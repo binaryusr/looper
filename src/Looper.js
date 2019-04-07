@@ -97,6 +97,7 @@ class LooperContiner extends HTMLElement {
       endMarker.style.display = `none`;
       startMarker.style.display = `block`;
       startMarker.style.left = `${x}px`;
+      videoElement.removeEventListener(`timeupdate`, this.onVideoElementTimeUpdate);
       videoElement.currentTime = secondsToSet;
       this.state.startLoopTime = secondsToSet;
       this.state.endLoopTime = videoElement.duration;
