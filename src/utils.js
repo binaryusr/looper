@@ -23,3 +23,5 @@ const computeProgressBarValue = videoElement => {
   const percent = (100 / videoElement.duration) * videoElement.currentTime;
   return percent / 100;
 };
+
+const isEven = number => number % 2 === 0;

@@ -93,21 +93,27 @@ class LooperContiner extends HTMLElement {
     const startMarker = this.shadowRoot.querySelector(`#start-marker`);
     const endMarker = this.shadowRoot.querySelector(`#end-marker`);
     const secondsToSet = getCurrentTimeInSeconds(clientRect.width, x, videoElement.duration);
-    if (this.state.progressBarClicks % 2 === 0) {
+    const runStartLoopCase = () => {
       endMarker.style.display = `none`;
       startMarker.style.display = `block`;
       startMarker.style.left = `${x}px`;
       videoElement.currentTime = secondsToSet;
       this.state.startLoopTime = secondsToSet;
       this.state.endLoopTime = videoElement.duration;
-    }
-    if (this.state.progressBarClicks % 2 === 1) {
+    };
+    const runEndLoopCase = () => {
       endMarker.style.display = `block`;
       endMarker.style.left = `${x}px`;
       this.state.endLoopTime = secondsToSet;
-    }
+    };
+
+    if (isEven(this.state.progressBarClicks)) runStartLoopCase();
+    else runEndLoopCase();
+
+    if (this.state.endLoopTime < this.state.startLoopTime) runStartLoopCase();
+    else this.state.progressBarClicks++;
+
     videoElement.addEventListener(`timeupdate`, this.onVideoElementTimeUpdate);
-    this.state.progressBarClicks++;
   }
 
   onVideoElementTimeUpdate(evt) {
