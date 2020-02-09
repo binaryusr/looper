@@ -5,7 +5,9 @@ const getElementFromTemplate = str => {
 const generateElement = (templateStr, selector, attrs) => {
   const docFragment = getElementFromTemplate(templateStr);
   const element = docFragment.querySelector(selector);
-  Object.keys(attrs).forEach(it => element.setAttribute(it, attrs[it]));
+  if (attrs) {
+    Object.keys(attrs).forEach(it => element.setAttribute(it, attrs[it]));
+  }
   return docFragment;
 };
 
