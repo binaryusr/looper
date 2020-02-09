@@ -54,12 +54,10 @@ const looperStyles = `
   </style>
 `;
 
-class LooperContiner extends HTMLElement {
+class LooperContainer extends HTMLElement {
   constructor() {
     super();
     this.state = { startLoopTime: 0, endLoopTime: 0, progressBarClicks: 0, };
-    this.onVideoElementTimeUpdate = this.onVideoElementTimeUpdate.bind(this);
-    this.onProgressBarClick = this.onProgressBarClick.bind(this);
     this.attachShadow({ mode: `open` });
     const Container = getElementFromTemplate(looperStyles);
     const RelativeWrapper = this.generateWrapper();
@@ -86,7 +84,7 @@ class LooperContiner extends HTMLElement {
     return progressBar;
   }
 
-  onProgressBarClick(evt) {
+  onProgressBarClick = (evt) => {
     const clientRect = evt.target.getBoundingClientRect();
     const x = evt.clientX - clientRect.left;
     const videoElement = document.querySelector(`.looper-video-anchor-${this.id.split(`-`)[1]}`);
@@ -117,7 +115,7 @@ class LooperContiner extends HTMLElement {
     videoElement.addEventListener(`timeupdate`, this.onVideoElementTimeUpdate);
   }
 
-  onVideoElementTimeUpdate(evt) {
+  onVideoElementTimeUpdate = (evt) => {
     if (evt.target.currentTime >= this.state.endLoopTime) {
       evt.target.currentTime = this.state.startLoopTime;
       evt.target.play();
@@ -125,4 +123,4 @@ class LooperContiner extends HTMLElement {
   }
 }
 
-window.customElements.define(`looper-container`, LooperContiner);
+window.customElements.define(`looper-container`, LooperContainer);
