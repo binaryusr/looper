@@ -20,3 +20,4 @@ Figure out:
 - [CSS tricks about progress element](https://css-tricks.com/html5-progress-element/)
 - [Video player styling, MDN](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Video_player_styling_basics)
 - [Video and audio API, MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Video_and_audio_APIs)
+
