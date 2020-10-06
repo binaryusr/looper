@@ -65,7 +65,7 @@ class LooperContainer extends HTMLElement {
   }
 
   generateWrapper() {
-    const RelativeWrapper = getElementFromTemplate`<div class="relative-wrapper"></div>`;
+    const RelativeWrapper = getElementFromTemplate(`<div class="relative-wrapper"></div>`);
     const ProgressBar = this.generateProgressBar(`progress-bar`);
     const StartMarker = this.generateMarker(`start-marker`);
     const EndMarker = this.generateMarker(`end-marker`);
@@ -78,7 +78,7 @@ class LooperContainer extends HTMLElement {
   }
 
   generateProgressBar(name) {
-    const progressBar = getElementFromTemplate(`<progress id="${name}" class="${name}"></progress>`).querySelector(`#progress-bar`);
+    const progressBar = getElementFromTemplate(`<progress id="${name}" class="${name}"></progress>`).querySelector(`#${name}`);
     progressBar.addEventListener(`click`, this.onProgressBarClick);
     return progressBar;
   }
