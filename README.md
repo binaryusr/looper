@@ -20,3 +20,11 @@ Figure out:
 - [CSS tricks about progress element](https://css-tricks.com/html5-progress-element/)
 - [Video player styling, MDN](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Video_player_styling_basics)
 - [Video and audio API, MDN](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Video_and_audio_APIs)
+
+## How to build an extension
+- create `manifest.json`
+- load an unpacked extension to chrome (for development purposes)
+- `content.js` can interact with web pages that the browser visits
+- `background.js` has an access to all chrome APIs
+- `contetn.js` and `background.js` can only interact with each other through
+message passing 
