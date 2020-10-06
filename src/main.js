@@ -8,7 +8,7 @@ const generateLooper = (videoElement, id) => {
   return looper;
 };
 
-[ ...document.querySelectorAll(`video`) ].map((it, i) => {
+[...document.querySelectorAll(`video`)].map((it, i) => {
   it.classList.add(`looper-video-anchor-${i}`);
   const looper = generateLooper(it, `looper-${i}`);
   it.parentNode.appendChild(looper);
