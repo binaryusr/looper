@@ -27,7 +27,6 @@ const looperStyles = `
       display: block;
       width: 100%;
       height: 4px;
-      border-radius: 5px;
       background-color: grey;
       cursor: pointer;
     }
@@ -61,66 +60,68 @@ class LooperContainer extends HTMLElement {
     this.attachShadow({ mode: `open` });
     const Container = getElementFromTemplate(looperStyles);
     const RelativeWrapper = this.generateWrapper();
-    appendAll(Container, RelativeWrapper);
-    appendAll(this.shadowRoot, Container);
+    appendAll(Container, [RelativeWrapper]);
+    appendAll(this.shadowRoot, [Container]);
   }
 
   generateWrapper() {
-    const RelativeWrapper = getElementFromTemplate(`<div class="relative-wrapper"></div>`);
-    const ProgressBar = this.generateProgressBar({ class: `progress-bar`, id: `progress-bar` });
-    const StartMarker = this.generateMarker({ class: `marker start-marker`, id: `start-marker` });
-    const EndMarker = this.generateMarker({ class: `marker end-marker`, id: `end-marker` });
-    appendAll(RelativeWrapper.querySelector(`.relative-wrapper`), ProgressBar, StartMarker, EndMarker);
+    const RelativeWrapper = getElementFromTemplate`<div class="relative-wrapper"></div>`;
+    const ProgressBar = this.generateProgressBar(`progress-bar`);
+    const StartMarker = this.generateMarker(`start-marker`);
+    const EndMarker = this.generateMarker(`end-marker`);
+    appendAll(RelativeWrapper.querySelector(`.relative-wrapper`), [ProgressBar, StartMarker, EndMarker]);
     return RelativeWrapper;
   }
 
-  generateMarker({ id, ...rest }) {
-    return generateElement(`<span id="${id}"></span>`, `#${id}`, rest);
+  generateMarker(markerType) {
+    return getElementFromTemplate(`<span id="${markerType}" class="marker ${markerType}"></span>`);
   }
 
-  generateProgressBar({ id, ...rest }) {
-    const progressBar = generateElement(`<progress id="${id}"></progress>`, `#${id}`, rest).querySelector(`#progress-bar`);
+  generateProgressBar(name) {
+    const progressBar = getElementFromTemplate(`<progress id="${name}" class="${name}"></progress>`).querySelector(`#progress-bar`);
     progressBar.addEventListener(`click`, this.onProgressBarClick);
     return progressBar;
   }
 
-  onProgressBarClick = (evt) => {
-    const clientRect = evt.target.getBoundingClientRect();
-    const x = evt.clientX - clientRect.left;
+  onProgressBarClick = e => {
     const videoElement = document.querySelector(`.looper-video-anchor-${this.id.split(`-`)[1]}`);
     const startMarker = this.shadowRoot.querySelector(`#start-marker`);
     const endMarker = this.shadowRoot.querySelector(`#end-marker`);
-    const secondsToSet = getCurrentTimeInSeconds(clientRect.width, x, videoElement.duration);
-    const runStartLoopCase = () => {
+
+    const { left: barStart, width: barWidth } = e.target.getBoundingClientRect();
+    const progressInPx = e.clientX - barStart;
+    const secondsToSet = getCurrentTimeInSeconds(barWidth, progressInPx, videoElement.duration);
+
+    const startLoop = () => {
       endMarker.style.display = `none`;
       startMarker.style.display = `block`;
-      startMarker.style.left = `${x}px`;
+      startMarker.style.left = `${progressInPx}px`;
       videoElement.removeEventListener(`timeupdate`, this.onVideoElementTimeUpdate);
       videoElement.currentTime = secondsToSet;
       this.state.startLoopTime = secondsToSet;
       this.state.endLoopTime = videoElement.duration;
     };
-    const runEndLoopCase = () => {
+
+    const endLoop = () => {
       endMarker.style.display = `block`;
-      endMarker.style.left = `${x}px`;
+      endMarker.style.left = `${progressInPx}px`;
       this.state.endLoopTime = secondsToSet;
     };
 
-    if (isEven(this.state.progressBarClicks)) runStartLoopCase();
-    else runEndLoopCase();
+    if (isEven(this.state.progressBarClicks)) startLoop();
+    else endLoop();
 
-    if (this.state.endLoopTime < this.state.startLoopTime) runStartLoopCase();
+    if (this.state.endLoopTime < this.state.startLoopTime) startLoop();
     else this.state.progressBarClicks++;
 
     videoElement.addEventListener(`timeupdate`, this.onVideoElementTimeUpdate);
-  }
+  };
 
-  onVideoElementTimeUpdate = (evt) => {
-    if (evt.target.currentTime >= this.state.endLoopTime) {
-      evt.target.currentTime = this.state.startLoopTime;
-      evt.target.play();
+  onVideoElementTimeUpdate = e => {
+    if (e.target.currentTime >= this.state.endLoopTime) {
+      e.target.currentTime = this.state.startLoopTime;
     }
-  }
+  };
 }
 
 window.customElements.define(`looper-container`, LooperContainer);

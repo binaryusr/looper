@@ -2,16 +2,7 @@ const getElementFromTemplate = str => {
   return document.createRange().createContextualFragment(str);
 };
 
-const generateElement = (templateStr, selector, attrs) => {
-  const docFragment = getElementFromTemplate(templateStr);
-  const element = docFragment.querySelector(selector);
-  if (attrs) {
-    Object.keys(attrs).forEach(it => element.setAttribute(it, attrs[it]));
-  }
-  return docFragment;
-};
-
-const appendAll = (container, ...elements) => {
+const appendAll = (container, elements) => {
   container.innerHTML = ``;
   elements.forEach(it => container.appendChild(it));
 };
