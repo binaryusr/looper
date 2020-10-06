@@ -13,5 +13,6 @@
   ],
   "background": {
     "scripts": ["background.js"]
-  }
+  },
+  "web_accessible_resources": ["src/main.js", "src/Looper.js", "src/utils.js"]
 }

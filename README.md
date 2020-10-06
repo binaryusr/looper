@@ -13,6 +13,7 @@ Figure out:
 
 ## Extensions
 - [How too make chrome extension](https://thoughtbot.com/blog/how-to-make-a-chrome-extension)
+- [Insert code into the page using `content.js`](https://stackoverflow.com/questions/9515704/insert-code-into-the-page-context-using-a-content-script)
 
 ## Video player
 - [Entire custom video player](https://www.creativebloq.com/html5/build-custom-html5-video-player-9134473)
